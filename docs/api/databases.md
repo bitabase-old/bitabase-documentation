@@ -9,7 +9,7 @@ A database is a folder of collections. A database has one or more owners (from t
 
 > Note: Multiple owners has not been implemented in the latest version
 
-## Resource Schema
+## Resource Definition
 | Name              | Type    | Validation   | Description                         |
 |-------------------|---------|--------------|-------------------------------------|
 | name              | string  | Alphanumeric | The name to reference your database |
