@@ -46,7 +46,7 @@ const siteConfig = {
   // If you have users set above, you add it here:
   users,
 
-  editUrl: 'https://github.com/bitabase/bitabase-documention/blob/master/docs/',
+  editUrl: 'https://github.com/bitabase/bitabase-documentation/blob/master/docs/',
 
   /* path to images for header/footer */
   headerIcon: 'img/favicon.ico',
