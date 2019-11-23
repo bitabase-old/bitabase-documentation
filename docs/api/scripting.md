@@ -69,14 +69,12 @@ includes({} 'name' 'Joe') // === false
 Irreversably hash a string. Useful for passwords.
 
 ```javascript
-hashText('secretpassword')
+hashText('secretpassword') // === 'xxxxxxxxxxxxxxxxxxxx'
 ```
 
 ### verifyHash
 Verify is a hashed string is equal to an unhashed string
 
 ```javascript
-verifyHash('secretpassword', 'xxxxxxxxxxxxxxxxxxxx')
+verifyHash('secretpassword', 'xxxxxxxxxxxxxxxxxxxx') // === true
 ```
-
-  };
