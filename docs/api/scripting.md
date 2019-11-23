@@ -30,8 +30,9 @@ May be provided if a script is being called on a value, such as validation on a 
 If a mutation is happening to the API, ie a `post`, `put`, `patch` then the body provided by the client
 will be provided.
 
-### data
-If a presenter is being applied, then the data of the fetched record will be provided at this stage
+### record
+This is the record that is being read. If you are doing a `get` or `put` then you will have access
+to the original `record`.
 
 ### concat
 Join the arguments together.
