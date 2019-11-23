@@ -21,7 +21,7 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Bitabase Docs', // Title for your website.
+  title: 'Developer Docs', // Title for your website.
   tagline: 'How to give your CRUD a REST',
   url: 'https://www.bitabase.com', // Your website URL
   baseUrl: '/', // Base URL for your project */
@@ -51,7 +51,7 @@ const siteConfig = {
   editUrl: 'https://github.com/bitabase/bitabase-documentation/blob/master/docs/',
 
   /* path to images for header/footer */
-  headerIcon: 'img/favicon.ico',
+  headerIcon: 'img/logo.png',
   footerIcon: 'img/favicon.ico',
   favicon: 'img/favicon.ico',
 
