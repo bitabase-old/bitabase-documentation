@@ -21,8 +21,8 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Bitabase', // Title for your website.
-  tagline: 'Give your CRUD a REST',
+  title: 'Bitabase Docs', // Title for your website.
+  tagline: 'How to give your CRUD a REST',
   url: 'https://www.bitabase.com', // Your website URL
   baseUrl: '/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -38,14 +38,15 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    {doc: 'guides/introduction', label: 'Guides'},
+    {doc: 'api/introduction', label: 'API'},
+    {page: 'help', label: 'Help'}
   ],
 
   // If you have users set above, you add it here:
   users,
+
+  editUrl: 'https://github.com/bitabase/bitabase-documention/blob/master/docs/',
 
   /* path to images for header/footer */
   headerIcon: 'img/favicon.ico',
@@ -54,8 +55,8 @@ const siteConfig = {
 
   /* Colors for website */
   colors: {
-    primaryColor: '#49a113',
-    secondaryColor: '#33700d',
+    primaryColor: '#5d994b',
+    secondaryColor: '#5d994b',
   },
 
   /* Custom fonts for website */
@@ -100,11 +101,11 @@ const siteConfig = {
   // enableUpdateBy: true,
 
   // Show documentation's last update time.
-  // enableUpdateTime: true,
+  enableUpdateTime: true,
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+    repoUrl: 'https://github.com/bitabase/bitabase-server',
 };
 
 module.exports = siteConfig;

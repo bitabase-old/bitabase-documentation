@@ -27,7 +27,7 @@ function Help(props) {
       title: 'Browse Docs',
     },
     {
-      content: 'Ask questions about the documentation and project',
+      content: `Ask questions about the documentation and Bitabase projects [on our community.](https://community.bitabase.com)`,
       title: 'Join the community',
     },
     {
