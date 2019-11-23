@@ -12,7 +12,7 @@ For this reason Bitabase Server allows scripts to be placed in several places.
 
 The scripts use the `presh` expression language.
 
-More information about [presh](https://github.com/korynunn/presh) are on the github repository.
+More information about [presh](https://github.com/korynunn/presh) can be found on the github repository.
 
 
 ## Globally Exposed Utilities
