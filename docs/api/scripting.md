@@ -76,5 +76,5 @@ hashText('secretpassword') // === 'xxxxxxxxxxxxxxxxxxxx'
 Verify is a hashed string is equal to an unhashed string
 
 ```javascript
-verifyHash('secretpassword', 'xxxxxxxxxxxxxxxxxxxx') // === true
+verifyHash('secretpassword' 'xxxxxxxxxxxxxxxxxxxx') // === true
 ```
