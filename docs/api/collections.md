@@ -30,8 +30,16 @@ An example of an advanced validation schema is:
 
 ```json
 "schema": {
-  "personaName": ["required", "string", "value !== 'admin' ? '' : 'Can not use the name admin'"],
-  "email": ["required", "string", "includes(value, '@') ? '' : 'Must be an email'"]
+  "personaName": [
+    "required",
+    "string",
+    "value !== 'admin' ? '' : 'Can not use the name admin'"
+  ],
+  "email": [
+    "required",
+    "string",
+    "includes(value, '@') ? '' : 'Must be an email'"
+  ]
 }
 ```
 
@@ -69,12 +77,18 @@ fetch('https://api.bitabase.net/v1/databases/test/collections', {
     schema: {
       firstName: ['required', 'string'],
       lastName: ['required', 'string'],
+      password: ['required', 'string'],
       email: ['required', 'array']
     },
 
     // These will be run on each record before presenting back to the client
+    mutations: [
+      '{...data password: hash(data.password)}'
+    ],
+
+    // These will be run on each record before presenting back to the client
     presenters: [
-      '{fullname: concat(firstName, " ", lastName)}'
+      '{...data fullname: concat(data.firstName " " data.lastName)}'
     ],
 
     // You can also set rules for each method
