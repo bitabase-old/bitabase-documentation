@@ -46,6 +46,8 @@ const siteConfig = {
   // If you have users set above, you add it here:
   users,
 
+  scrollToTop: true,
+  docsSideNavCollapsible: true,
   editUrl: 'https://github.com/bitabase/bitabase-documentation/blob/master/docs/',
 
   /* path to images for header/footer */

@@ -1,7 +1,7 @@
 ---
 id: your-first-database
 title: Your First Database
-sidebar_label: Database
+sidebar_label: Your First Database
 ---
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.

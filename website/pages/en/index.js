@@ -64,9 +64,9 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle siteConfig={siteConfig} />
           <PromoSection>
-            <Button href="https://bitabase.com">Create Account</Button>
-            <Button href={docUrl('introduction.html')}>Getting Started</Button>
-            <Button href={docUrl('api.html')}>API Docs</Button>
+            <Button href="https://www.bitabase.com">Create Account</Button>
+            <Button href={docUrl('guides/introduction.html')}>Getting Started</Button>
+            <Button href={docUrl('api/introduction.html')}>API Docs</Button>
             <Button href="https://community.bitabase.com">Ask For Help</Button>
           </PromoSection>
         </div>

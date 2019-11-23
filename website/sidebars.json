@@ -1,9 +1,8 @@
 {
   "docs": {
-    "Getting Started": ["guides/introduction", "guides/your-first-database"],
-    "Database": ["api/introduction", "api/your-first-database"]
+    "Getting Started": ["guides/introduction", "guides/your-first-database"]
   },
   "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "Database": ["api/introduction", "api/your-first-database"]
   }
 }
