@@ -23,14 +23,15 @@ an array of validations.
 
 Validations can be custom scripts, or picked from the prebuilt validations below:
 - string
-- required
+- number
 - array
+- required
 
 An example of an advanced validation schema is:
 
 ```json
 "schema": {
-  "personaName": [
+  "personName": [
     "required",
     "string",
     "value !== 'admin' ? '' : 'Can not use the name admin'"
