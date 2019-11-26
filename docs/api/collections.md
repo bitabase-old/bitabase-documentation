@@ -12,7 +12,7 @@ A database has multiple collections, which are queriable sets of records. They a
 |-------------------|---------|----------|--------------|---------------------------------------|
 | name              | string  | required | Alphanumeric | The name to reference your collection |
 | schema            | object  | required |              | See schema section below              |
-| mutations         | array   |          |              | See mutations section below           |
+| transforms        | array   |          |              | See transforms section below          |
 | presenters        | integer |          |              | See presenters section below          |
 | rules             | integer |          |              | See rules section below               |
 | date_created      | integer |          |              | A timestamp of the date created       |
@@ -60,7 +60,7 @@ Create a new collection on a specified database.
 <tr><td><b>Inputs:</b></td> <td>
   <code>name</code>,
   <code>schema</code>,
-  <code>mutations</code>,
+  <code>transforms</code>,
   <code>presenters</code>,
   <code>rules</code>
 </td></tr>
@@ -82,7 +82,7 @@ fetch('https://api.bitabase.net/v1/databases/test/collections', {
     },
 
     // These will be run on each record before presenting back to the client
-    mutations: [
+    transforms: [
       '{...body password: hash(body.password)}'
     ],
 
@@ -93,6 +93,10 @@ fetch('https://api.bitabase.net/v1/databases/test/collections', {
 
     // You can also set rules for each method
     rules: {
+      AUTH: [
+        'verifyHash(body.password record.password) ? "" : "Login Failed"'
+      ],
+
       DELETE: [
         '"can not delete people"'
       ]
