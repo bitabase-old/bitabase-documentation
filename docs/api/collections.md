@@ -46,10 +46,51 @@ An example of an advanced validation schema is:
 
 > More information on scripting can be found on the [scripting](api/scripting.md) page.
 
-### mutations
+### transforms
+If you want to change the request body data before it is `mutated` into the database, then
+you can set `transforms`.
+
+As this is the value that was actually be inserted or updated in the database, it's results
+must pass the validation schema.
+
+An example of a transforms is:
+
+```json
+"transforms": [
+  "{...body firstName: body.firstName.toUpperCase()}"
+]
+```
+
 ### presenters
+If you want to change the response data after it has come from the database or been mutated, then
+you can set `presenters`.
+
+As this is only the presenting object and does not effect the database, you do not have to conform
+to the schema validation rules set in the collection configuration.
+
+An example of a presenter is:
+
+```json
+"transforms": [
+  "{...body fullName: concat(body.firstName body.lastName)}"
+]
+```
+
 ### rules
-### date_created
+Sometimes you will only want to allow clients access to a method in certain situations. For this
+you can create `rules` that will run before anything is executed on your database.
+
+If a rule returns anything other than an empty string the request will fail.
+
+An example of a rule on a `post` that will only success if a header is set is:
+
+```json
+"rules": {
+  "POST": [
+    "headers['X-Example-Token'] === '12345' ? '' : 'Token was invalid'"
+  ]
+}
+```
 
 ## Available Methods
 ### Create a new collection
