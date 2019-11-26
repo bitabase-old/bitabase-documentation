@@ -4,26 +4,159 @@ title: Your First Database
 sidebar_label: Your First Database
 ---
 
-Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
+All of the documentation that you see on the main bitabase.com "How It works" page are features coming by the end of this year.
 
-## Lorem
+But at the time of writing this post there are only a few endpoints currently available. I'm going to walk you through what you can do right now.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+# Step 1: Create an account
+Go on over to bitabase.com and sign up for your account, then login.
 
-## Mauris In Code
+# Step 2: Create a new database
+Once logged in you should see the following screen:
+![47|690x415](https://community.bitabase.com/uploads/default/original/1X/60f634123368935c8fbfa02b79945be0a13e0dc1.png) 
 
+Click the "Create a new database" button then enter a random name. Note that this name will be the subdomain that you access your database. For example BILLY would be accessed at billy.bitabase.net. For this reason you must choose a name no one else has though of.
+
+# Step 3: Create a collection
+Now your database is up and running it's time to get techy. Open your Chrome (or other browsers) DevTools and we'll paste some code to create our first collection:
+
+> You will need to replace YOURDATABASE with the actual name of your database, and put your sessionId and sessionSecret from the information in the my account page
+
+```javascript
+fetch('https://api.bitabase.net/v1/databases/YOURDATABASE/collections', {
+  method: 'post',
+  body: JSON.stringify({
+    name: 'people',
+    schema: {
+      firstName: ['required', 'string'],
+      lastName: ['required', 'string'],
+      email: ['required', 'string']
+    }
+  }),
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Session-Id': 'get this from your my account page',
+    'X-Session-Secret': 'get this from your my account page',
+    'X-Requested-With': 'fetch'
+  }
+}).then(r => r.json()).then(console.log)
 ```
-Mauris vestibulum ullamcorper nibh, ut semper purus pulvinar ut. Donec volutpat orci sit amet mauris malesuada, non pulvinar augue aliquam. Vestibulum ultricies at urna ut suscipit. Morbi iaculis, erat at imperdiet semper, ipsum nulla sodales erat, eget tincidunt justo dui quis justo. Pellentesque dictum bibendum diam at aliquet. Sed pulvinar, dolor quis finibus ornare, eros odio facilisis erat, eu rhoncus nunc dui sed ex. Nunc gravida dui massa, sed ornare arcu tincidunt sit amet. Maecenas efficitur sapien neque, a laoreet libero feugiat ut.
+
+# Step 4: Go see your collection
+Great, you now have a collection. Let's go over and see what's in there. In a new tab goto:
+https://YOURDATABASE.bitabase.net/people
+
+If all went well you should see the following:
+
+```json
+{
+  "count": 0,
+  "items": []
+}
 ```
 
-## Nulla
+# Step 5: Insert a record
+It's looking a bit lonely, isn't it? Let's add a person in there.
 
-Nulla facilisi. Maecenas sodales nec purus eget posuere. Sed sapien quam, pretium a risus in, porttitor dapibus erat. Sed sit amet fringilla ipsum, eget iaculis augue. Integer sollicitudin tortor quis ultricies aliquam. Suspendisse fringilla nunc in tellus cursus, at placerat tellus scelerisque. Sed tempus elit a sollicitudin rhoncus. Nulla facilisi. Morbi nec dolor dolor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras et aliquet lectus. Pellentesque sit amet eros nisi. Quisque ac sapien in sapien congue accumsan. Nullam in posuere ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin lacinia leo a nibh fringilla pharetra.
+Open a new DevTools window (making sure your are still on the YOURDATABASE.bitabase.net site).
 
-## Orci
+> CORS has not been enabled yet (at the time of this tutorial), so if you try and access the url from a site other than the your database subdomain you will be hit with errors. In the future you will be able to specify/whitelist domains that can access your url.
 
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin venenatis lectus dui, vel ultrices ante bibendum hendrerit. Aenean egestas feugiat dui id hendrerit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur in tellus laoreet, eleifend nunc id, viverra leo. Proin vulputate non dolor vel vulputate. Curabitur pretium lobortis felis, sit amet finibus lorem suscipit ut. Sed non mollis risus. Duis sagittis, mi in euismod tincidunt, nunc mauris vestibulum urna, at euismod est elit quis erat. Phasellus accumsan vitae neque eu placerat. In elementum arcu nec tellus imperdiet, eget maximus nulla sodales. Curabitur eu sapien eget nisl sodales fermentum.
+Paste the following code.
 
-## Phasellus
+```javascript
+All of the documentation that you see on the main bitabase.com "How It works" page are features coming by the end of this year.
 
-Phasellus pulvinar ex id commodo imperdiet. Praesent odio nibh, sollicitudin sit amet faucibus id, placerat at metus. Donec vitae eros vitae tortor hendrerit finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vitae purus dolor. Duis suscipit ac nulla et finibus. Phasellus ac sem sed dui dictum gravida. Phasellus eleifend vestibulum facilisis. Integer pharetra nec enim vitae mattis. Duis auctor, lectus quis condimentum bibendum, nunc dolor aliquam massa, id bibendum orci velit quis magna. Ut volutpat nulla nunc, sed interdum magna condimentum non. Sed urna metus, scelerisque vitae consectetur a, feugiat quis magna. Donec dignissim ornare nisl, eget tempor risus malesuada quis.
+But at the time of writing this post there are only a few endpoints currently available. I'm going to walk you through what you can do right now.
+
+# Step 1: Create an account
+Go on over to bitabase.com and sign up for your account, then login.
+
+# Step 2: Create a new database
+Once logged in you should see the following screen:
+![47|690x415](upload://dPLkbiH741sLGMukXpiHRIEBShP.png) 
+
+Click the "Create a new database" button then enter a random name. Note that this name will be the subdomain that you access your database. For example BILLY would be accessed at billy.bitabase.net. For this reason you must choose a name no one else has though of.
+
+# Step 3: Create a collection
+Now your database is up and running it's time to get techy. Open your Chrome (or other browsers) DevTools and we'll paste some code to create our first collection:
+
+> You will need to replace YOURDATABASE with the actual name of your database, and put your sessionId and sessionSecret from the information in the my account page
+
+```javascript
+fetch('https://api.bitabase.net/v1/databases/YOURDATABASE/collections', {
+  method: 'post',
+  body: JSON.stringify({
+    name: 'people',
+    schema: {
+      firstName: ['required', 'string'],
+      lastName: ['required', 'string'],
+      email: ['required', 'string']
+    }
+  }),
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Session-Id': 'get this from your my account page',
+    'X-Session-Secret': 'get this from your my account page',
+    'X-Requested-With': 'fetch'
+  }
+}).then(r => r.json()).then(console.log)
+```
+
+# Step 4: Go see your collection
+Great, you now have a collection. Let's go over and see what's in there. In a new tab goto:
+https://YOURDATABASE.bitabase.net/people
+
+If all went well you should see the following:
+
+```json
+{
+  "count": 0,
+  "items": []
+}
+```
+
+# Step 5: Insert a record
+It's looking a bit lonely, isn't it? Let's add a person in there.
+
+Open a new DevTools window (making sure your are still on the YOURDATABASE.bitabase.net site).
+
+> CORS has not been enabled yet (at the time of this tutorial), so if you try and access the url from a site other than the your database subdomain you will be hit with errors. In the future you will be able to specify/whitelist domains that can access your url.
+
+Paste the following code.
+
+```javascript
+fetch('https://test.bitabase.net/people', {
+fetch('https://YOURDATABASE.bitabase.net/people', {
+  method: 'post',
+  body: JSON.stringify({
+      firstName: 'Joe',
+      lastName: 'Bloggs',
+      email: 'joe.bloggs@example.com'
+  }),
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'fetch'
+  }
+}).then(r => r.json()).then(console.log)
+```
+> Notice how we didn't need our sessionId or sessionSecret any more. This is before you are now accessing your own personal collection, that your clients can directly use from your own apps.
+
+# Step 6: Lets look at our new record
+Just like in step 4, go back to that tab and refresh. Otherwise you can open a new tab and navigate to: https://YOURDATABASE.bitabase.net/people
+
+You should now see a list of your records, containing one item. Joe Bloggs.
+
+```json
+{
+  "count": 1,
+  "items": [
+    {
+      "id": "dd9330d6-d2d8-431b-8b74-213d0159bd18",
+      "firstName": "Joe",
+      "lastName": "Bloggs",
+      "email": "joe.bloggs@example.com"
+    }
+  ]
+}
+```
