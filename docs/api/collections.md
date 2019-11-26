@@ -71,7 +71,7 @@ Create a new collection on a specified database.
 fetch('https://api.bitabase.net/v1/databases/test/collections', {
   method: 'post',
   body: {
-    id: 'people',
+    name: 'people',
 
     // Creating and updating items must conform to this schema
     schema: {
