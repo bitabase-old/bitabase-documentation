@@ -130,9 +130,10 @@ fetch('https://api.bitabase.net/v1/databases/test/collections', {
     },
 
     // These will be run on each record before presenting back to the client
+    // Each transducer must return an object, or call reject.
     transducers: [
       '{...body password: hash(body.password)}',
-      '{method == "delete" && reject(401 "you are not allowed to delete people")}',
+      'method === "delete" ? reject(401 "you are not allowed to delete people") : body',
     ],
 
     // These will be run on each record before presenting back to the client
