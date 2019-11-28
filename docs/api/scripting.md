@@ -32,8 +32,11 @@ record from the `users` table will be exposed in all scripts.
 ### method
 The method of the http request. For example `get`, `post`, `put`, `patch`, `delete`.
 
+### field
+The field being validated (if applicable)
+
 ### value
-May be provided if a script is being called on a value, such as validation on a collection property.
+The value being validated (if applicable)
 
 ### body
 If a mutation is happening to the API, ie a `post`, `put`, `patch` then the body provided by the client

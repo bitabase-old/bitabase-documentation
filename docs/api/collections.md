@@ -55,8 +55,8 @@ An example of an advanced validation schema is:
 > More information on scripting can be found on the [scripting](api/scripting.md) page.
 
 ### transducers
-You can think of transducers similary to controllers in a typical web application. This is
-where you put your business logic.
+Much like controllers in a typical web application, transducers allow you to control
+the business logic of your endpoints.
 
 When performing an http request, bitabase server will reduce over the transducers passing in
 the result from the previous transducers until you finish with the record to be inserted.
