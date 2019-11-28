@@ -80,7 +80,7 @@ An example of restricting access is below:
 
 ```json
 "transducers": [
-  "method === 'delete' && reject(401 'you can not delete')",
+  "method === 'delete' ? reject(401 'you can not delete') : body",
   "headers['X-Example-Token'] !== '12345' && reject(401, 'example token was invalid')"
 ]
 ```
@@ -92,7 +92,7 @@ you can set `presenters`.
 An example of a presenter is:
 
 ```json
-"transducers": [
+"presenters": [
   "{...body fullName: concat(body.firstName body.lastName)}"
 ]
 ```
