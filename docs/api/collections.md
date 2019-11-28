@@ -11,15 +11,23 @@ A database has multiple collections, which are queriable sets of records. They a
 | Name              | Type    | Required | Validation   | Description                           |
 |-------------------|---------|----------|--------------|---------------------------------------|
 | name              | string  | required | Alphanumeric | The name to reference your collection |
-| schema            | object  | required |              | See schema section below              |
-| transforms        | array   |          |              | See transforms section below          |
-| presenters        | integer |          |              | See presenters section below          |
-| rules             | integer |          |              | See rules section below               |
+| schema            | object  |          |              | See schema section below              |
+| transducers       | array   |          |              | See transducers section below         |
+| presenters        | array   |          |              | See presenters section below          |
 | date_created      | integer |          |              | A timestamp of the date created       |
 
+> More information on scripting can be found on the [scripting](api/scripting.md) page.
+
 ### schema
-The `schema` property must be an object where the key is the name of the field, and the value is
+The `schema` property is an optional object where the key is the name of the field, and the value is
 an array of validations.
+
+If you do not provide a `schema` then no validation will be perform on incoming requests, meaning
+any client who passes the transducers (more information below) can create any record they like.
+
+If your clients are using bitabase directly, you probably want to define a schema to keep your data
+consistent. If you are using bitabase on a server, as a middle man, then you may find it easier to
+do your validations on your own server side.
 
 Validations can be custom scripts, or picked from the prebuilt validations below:
 - string
@@ -46,18 +54,34 @@ An example of an advanced validation schema is:
 
 > More information on scripting can be found on the [scripting](api/scripting.md) page.
 
-### transforms
-If you want to change the request body data before it is `mutated` into the database, then
-you can set `transforms`.
+### transducers
+You can think of transducers similary to controllers in a typical web application. This is
+where you put your business logic.
 
-As this is the value that was actually be inserted or updated in the database, it's results
-must pass the validation schema.
+When performing an http request, bitabase server will reduce over the transducers passing in
+the result from the previous transducers until you finish with the record to be inserted.
 
-An example of a transforms is:
+Some tasks you might want to do in a transducer are:
+- Restrict certain methods from being actioned
+- Validate only certain fields have been provided
+
+An example of a transducers is:
 
 ```json
-"transforms": [
-  "{...body firstName: body.firstName.toUpperCase()}"
+"transducers": [
+  "{...body firstName: toUpperCase(body.firstName)}"
+]
+```
+
+This transducer will put every field the client provided into the database, but change the
+firstName property to upper case.
+
+An example of restricting access is below:
+
+```json
+"transducers": [
+  "method === 'delete' && reject(401 'you can not delete')",
+  "headers['X-Example-Token'] !== '12345' && reject(401, 'example token was invalid')"
 ]
 ```
 
@@ -65,32 +89,15 @@ An example of a transforms is:
 If you want to change the response data after it has come from the database or been mutated, then
 you can set `presenters`.
 
-As this is only the presenting object and does not effect the database, you do not have to conform
-to the schema validation rules set in the collection configuration.
-
 An example of a presenter is:
 
 ```json
-"transforms": [
+"transducers": [
   "{...body fullName: concat(body.firstName body.lastName)}"
 ]
 ```
 
-### rules
-Sometimes you will only want to allow clients access to a method in certain situations. For this
-you can create `rules` that will run before anything is executed on your database.
-
-If a rule returns anything other than an empty string the request will fail.
-
-An example of a rule on a `post` that will only success if a header is set is:
-
-```json
-"rules": {
-  "POST": [
-    "headers['X-Example-Token'] === '12345' ? '' : 'Token was invalid'"
-  ]
-}
-```
+This will output every property in the record, and add a new one for the full name.
 
 ## Available Methods
 ### Create a new collection
@@ -102,9 +109,8 @@ Create a new collection on a specified database.
 <tr><td><b>Inputs:</b></td> <td>
   <code>name</code>,
   <code>schema</code>,
-  <code>transforms</code>,
+  <code>transducers</code>,
   <code>presenters</code>,
-  <code>rules</code>
 </td></tr>
 <tr><td><b>Outputs:</b></td> <td><code>name</code></td></tr>
 </table>
@@ -124,25 +130,15 @@ fetch('https://api.bitabase.net/v1/databases/test/collections', {
     },
 
     // These will be run on each record before presenting back to the client
-    transforms: [
-      '{...body password: hash(body.password)}'
+    transducers: [
+      '{...body password: hash(body.password)}',
+      '{method == "delete" && reject(401 "you are not allowed to delete people")}',
     ],
 
     // These will be run on each record before presenting back to the client
     presenters: [
       '{...record fullname: concat(record.firstName " " record.lastName)}'
-    ],
-
-    // You can also set rules for each method
-    rules: {
-      AUTH: [
-        'verifyHash(body.password record.password) ? "" : "Login Failed"'
-      ],
-
-      DELETE: [
-        '"can not delete people"'
-      ]
-    }
+    ]
   },
   headers: {
     'X-Session-Id': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',

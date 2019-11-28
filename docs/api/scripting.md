@@ -4,7 +4,6 @@ title: Scripting
 sidebar_label: Scripting
 ---
 
-## What are scripts
 While creating your API you will probably want some custom logic that has not be
 pre built into Bitabase Server.
 
@@ -19,9 +18,19 @@ More information about [presh](https://github.com/korynunn/presh) can be found o
 Looking at the [bitabase-server evaluate.js code](https://github.com/bitabase/bitabase-server/blob/master/modules/evaluate.js)
 we can see several globally exposed functions to help you while you're scripting.
 
+### reject
+This will stop the execution flow and send an error to the client.
+
+```javascript
+reject(400 'the request did not look good')
+```
+
 ### user
 If a collection's API has been called with a valid username and password then the
 record from the `users` table will be exposed in all scripts.
+
+### method
+The method of the http request. For example `get`, `post`, `put`, `patch`, `delete`.
 
 ### value
 May be provided if a script is being called on a value, such as validation on a collection property.
