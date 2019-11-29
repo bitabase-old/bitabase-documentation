@@ -26,5 +26,5 @@ your collection and want to return records 10 to 20 you would set the offset to 
 
 ## Examples
 ```text
-https://YOUR_DATABASE.bitabase.net/:collectionName?limit=10&offset=25
+https://YOUR-DATABASE.bitabase.net/:collectionName?limit=10&offset=25
 ```
