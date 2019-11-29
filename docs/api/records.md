@@ -22,7 +22,7 @@ List all the records in a collection
 </td></tr>
 <tr><td><b>Pagination:</b></td> <td>
   <code><a href="pagination">?limit=10</a></code>
-  <code><a href="pagination">?offset=10</a></code>
+  <code><a href="pagination">?offset=0</a></code>
 </td></tr>
 </table>
 
