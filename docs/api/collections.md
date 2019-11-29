@@ -104,7 +104,7 @@ This will output every property in the record, and add a new one for the full na
 Create a new collection on a specified database.
 
 <table>
-<tr><td><b>URL:</b></td> <td>/v1/databases/:databaseId/collections</td></tr>
+<tr><td><b>URL:</b></td> <td>/v1/databases/:databaseName/collections</td></tr>
 <tr><td><b>Method:</b></td> <td>POST</td></tr>
 <tr><td><b>Inputs:</b></td> <td>
   <code>name</code>,
@@ -153,6 +153,88 @@ Example Response:
 {
   "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
   "name": "test",
+}
+```
+
+
+### Update an existing collection
+Change the configuration of an existing collection on a specified database.
+
+<table>
+<tr><td><b>URL:</b></td> <td>/v1/databases/:databaseName/collections/:collectionName</td></tr>
+<tr><td><b>Method:</b></td> <td>PUT</td></tr>
+<tr><td><b>Inputs:</b></td> <td>
+  <code>name</code>,
+  <code>schema</code>,
+  <code>transducers</code>,
+  <code>presenters</code>,
+</td></tr>
+<tr><td><b>Outputs:</b></td> <td><code>name</code></td></tr>
+</table>
+
+```javascript
+fetch('https://api.bitabase.net/v1/databases/test/collections/people', {
+  method: 'put',
+  body: {
+    // You can not change the collection name
+    name: 'people',
+
+    // Creating and updating items must conform to this schema
+    schema: {
+      firstName: ['required', 'string'],
+      lastName: ['required', 'string'],
+      password: ['required', 'string'],
+      email: ['required', 'array']
+    },
+
+    // These will be run on each record before presenting back to the client
+    // Each transducer must return an object, or call reject.
+    transducers: [
+      '{...body password: hash(body.password)}',
+      'method === "delete" ? reject(401 "you are not allowed to delete people") : body',
+    ],
+
+    // These will be run on each record before presenting back to the client
+    presenters: [
+      '{...record fullname: concat(record.firstName " " record.lastName)}'
+    ]
+  },
+  headers: {
+    'X-Session-Id': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    'X-Session-Secret': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  }
+});
+```
+
+Example Response:
+```json
+{
+  "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "name": "test",
+  "schema": {
+    "firstName": ["required", "string"],
+    "lastName": ["required", "string"],
+    "password": ["required", "string"],
+    "email": ["required", "array"]
+  },
+
+  // These will be run on each record before presenting back to the client
+  // Each transducer must return an object, or call reject.
+  "transducers": [
+    "{...body password: hash(body.password)}",
+    "method === \"delete\" ? reject(401 \"you are not allowed to delete people\") : body",
+  ],
+
+  // These will be run on each record before presenting back to the client
+  "presenters": [
+    "{...record fullname: concat(record.firstName \" \" record.lastName)}"
+  ],
+
+  "statistics": {
+    "total_reads": 0,
+    "total_space": 0,
+    "total_writes": 0
+  }
 }
 ```
 
