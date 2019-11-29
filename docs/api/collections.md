@@ -107,10 +107,10 @@ Create a new collection on a specified database.
 <tr><td><b>URL:</b></td> <td>/v1/databases/:databaseName/collections</td></tr>
 <tr><td><b>Method:</b></td> <td>POST</td></tr>
 <tr><td><b>Inputs:</b></td> <td>
-  <code>name</code>,
-  <code>schema</code>,
-  <code>transducers</code>,
-  <code>presenters</code>,
+  <code>name</code>
+  <code>schema</code>
+  <code>transducers</code>
+  <code>presenters</code>
 </td></tr>
 <tr><td><b>Outputs:</b></td> <td><code>name</code></td></tr>
 </table>
@@ -164,12 +164,18 @@ Change the configuration of an existing collection on a specified database.
 <tr><td><b>URL:</b></td> <td>/v1/databases/:databaseName/collections/:collectionName</td></tr>
 <tr><td><b>Method:</b></td> <td>PUT</td></tr>
 <tr><td><b>Inputs:</b></td> <td>
-  <code>name</code>,
-  <code>schema</code>,
-  <code>transducers</code>,
-  <code>presenters</code>,
+  <code>name</code>
+  <code>schema</code>
+  <code>transducers</code>
+  <code>presenters</code>
 </td></tr>
-<tr><td><b>Outputs:</b></td> <td><code>name</code></td></tr>
+<tr><td><b>Outputs:</b></td> <td>
+  <code>name</code>
+  <code>schema</code>
+  <code>transducers</code>
+  <code>presenters</code>
+  <code>statistics</code>
+</td></tr>
 </table>
 
 ```javascript
