@@ -21,8 +21,8 @@ List all the records in a collection
   <code><a href="filtering">?query={}</a></code>
 </td></tr>
 <tr><td><b>Pagination:</b></td> <td>
-  <code>?limit=10</code>
-  <code>?offset=0</code>
+  <code><a href="pagination">?limit=10</a></code>
+  <code><a href="pagination">?offset=10</a></code>
 </td></tr>
 </table>
 
