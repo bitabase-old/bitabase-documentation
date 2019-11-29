@@ -3,6 +3,28 @@
     "Getting Started": ["guides/introduction", "guides/your-first-database"]
   },
   "api": {
-    "Bitabase Cloud": ["api/introduction", "api/scripting", "api/authentication", "api/databases", "api/collections"]
+    "Bitabase Cloud": [
+      "api/introduction",
+
+      {
+        "type": "subcategory",
+        "label": "Global Logic",
+        "ids": [
+          "api/authentication",
+          "api/filtering",
+          "api/scripting"
+        ]
+      },
+
+      {
+        "type": "subcategory",
+        "label": "Entities",
+        "ids": [
+          "api/databases",
+          "api/collections",
+          "api/records"
+        ]
+      }
+    ]
   }
 }
