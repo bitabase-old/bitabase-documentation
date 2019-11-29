@@ -217,19 +217,13 @@ Example Response:
     "password": ["required", "string"],
     "email": ["required", "array"]
   },
-
-  // These will be run on each record before presenting back to the client
-  // Each transducer must return an object, or call reject.
   "transducers": [
     "{...body password: hash(body.password)}",
     "method === \"delete\" ? reject(401 \"you are not allowed to delete people\") : body",
   ],
-
-  // These will be run on each record before presenting back to the client
   "presenters": [
     "{...record fullname: concat(record.firstName \" \" record.lastName)}"
   ],
-
   "statistics": {
     "total_reads": 0,
     "total_space": 0,
@@ -237,4 +231,3 @@ Example Response:
   }
 }
 ```
-
