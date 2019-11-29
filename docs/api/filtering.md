@@ -38,18 +38,18 @@ If you have, for example, a collection where some or all records have a `firstNa
 If you want to return only records where the `firstName` is equal to `Bob` then you would
 use the following url as `$eq` is the default operator:
 
-```
+```text
 https://DATABASE_NAME.bitabase.net/:collectionName?query={"firstName":"Bob"}
 ```
 
 You could be more explicit and specifiy the operator:
 
-```
+```text
 https://DATABASE_NAME.bitabase.net/:collectionName?query={"firstName":{"$eq":"Bob"}}
 ```
 
 Or what if we want to return all records except for "Bob":
 
-```
+```text
 https://DATABASE_NAME.bitabase.net/:collectionName?query={"firstName":{"$ne":"Bob"}}
 ```

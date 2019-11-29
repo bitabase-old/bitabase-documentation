@@ -11,6 +11,7 @@
         "label": "Global Logic",
         "ids": [
           "api/authentication",
+          "api/pagination",
           "api/filtering",
           "api/scripting"
         ]
