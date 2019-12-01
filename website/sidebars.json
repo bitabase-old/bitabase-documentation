@@ -13,7 +13,8 @@
           "api/authentication",
           "api/pagination",
           "api/filtering",
-          "api/scripting"
+          "api/scripting",
+          "api/sorting"
         ]
       },
 
