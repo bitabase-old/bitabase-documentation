@@ -71,7 +71,7 @@ Get the type of a variable
 
 ```javascript
 getType('hello') // === 'string'
-length(['a' 'b' 'c']) // === 'Array'
+getType(['a' 'b' 'c']) // === 'Array'
 ```
 
 ### includes
