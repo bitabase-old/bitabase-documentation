@@ -38,6 +38,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
+    {blog: true, label: 'Blog'},
     {doc: 'guides/introduction', label: 'Guides'},
     {doc: 'api/introduction', label: 'API'},
     {page: 'help', label: 'Help'}
@@ -86,8 +87,6 @@ const siteConfig = {
   // Add custom scripts here that would be placed in <script> tags.
   scripts: ['https://buttons.github.io/buttons.js'],
 
-  // On page navigation for the current documentation page.
-  onPageNav: 'separate',
   // No .html extensions for paths.
   cleanUrl: true,
 
@@ -107,7 +106,7 @@ const siteConfig = {
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-    repoUrl: 'https://github.com/bitabase/bitabase-server',
+  repoUrl: 'https://github.com/bitabase/bitabase-server',
 };
 
 module.exports = siteConfig;
