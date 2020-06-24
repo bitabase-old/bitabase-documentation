@@ -1,7 +1,7 @@
 ---
 title: Service Discovery (v1.5.0)
 author: Mark Wylde
-authorURL: http://twitter.com/mark.is.wylde
+authorURL: http://twitter.com/markiswylde
 ---
 
 This release combines the recent work on implementing service discovery into each other servers, managers and gateways.
