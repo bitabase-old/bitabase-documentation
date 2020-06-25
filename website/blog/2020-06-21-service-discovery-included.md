@@ -1,5 +1,5 @@
 ---
-title: Service Discovery (v1.5.0)
+title: Service Discovery
 author: Mark Wylde
 authorURL: http://twitter.com/markiswylde
 ---
