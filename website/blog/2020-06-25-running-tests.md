@@ -7,19 +7,19 @@ authorURL: http://twitter.com/markiswylde
 With the latest commit to the main [bitabase repo](https://github.com/bitabase/bitabase), you can now bring
 up an environment and run all the integration tests. This works even on a scaled cluster.
 
-Then change directory into the main bitabase folder:
-
-```bash
-cd bitabase
-```
-
 Put your docker instance into swarm mode.
 
 ```bash
 docker swarm init
 ```
 
-Then you can start the cluster using docker-compose. A helper script has been provided.
+Download the example [docker-compose.yml](https://github.com/bitabase/bitabase/blob/master/docker-compose.yml) file:
+
+```bash
+wget https://github.com/bitabase/bitabase/raw/master/docker-compose.yml
+```
+
+You can now bring up a new swarm stack:
 
 ```bash
 docker stack deploy -c docker-compose.yml up
