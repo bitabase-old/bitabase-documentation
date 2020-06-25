@@ -7,15 +7,6 @@ authorURL: http://twitter.com/markiswylde
 With the latest commit to the main [bitabase repo](https://github.com/bitabase/bitabase), you can now bring
 up an environment and run all the integration tests. This works even on a scaled cluster.
 
-To get going, first clone the main four repos:
-
-```bash
-git clone https://github.com/bitabase/bitabase-gateway.git
-git clone https://github.com/bitabase/bitabase-manager.git
-git clone https://github.com/bitabase/bitabase-server.git
-git clone https://github.com/bitabase/bitabase.git
-```
-
 Then change directory into the main bitabase folder:
 
 ```bash
@@ -31,7 +22,7 @@ docker swarm init
 Then you can start the cluster using docker-compose. A helper script has been provided.
 
 ```bash
-docker stack deploy -c docker-compose-dev.yml up
+docker stack deploy -c docker-compose.yml up
 ```
 
 This will bring up 1 gateway, 1 manager and 1 server along with an rqlite server to connect them.
