@@ -10,7 +10,7 @@ Over this weekend I've been playing with a new project called [bitabase-stressed
 
 This is a tool that will run a series of integration tests at a rate you specify to see how far you can push the database.
 
-Unfortunatly the results this weekend have not been impressive, although I haven't looked into reason why this is slow yet.
+Unfortunatly the results this weekend have not been impressive, although I haven't looked into the reason why this is slow yet.
 
 I expect the rqlite stuff to be a bit slow, since it's a replicated database that is strongly consistent for metadata. This means there is always going to be a somewhat upper limit of how many databases and collections you can create. I was able to create around 250 databases a second on my machine, which I'm happyish about. In the future I would want to test this can vertically scale by increasing the machine size.
 
