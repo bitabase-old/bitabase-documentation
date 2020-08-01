@@ -19,6 +19,7 @@ List all the records in a collection
 <tr><td><b>Outputs:</b></td> <td>Array of records</td></tr>
 <tr><td><b>Filtering:</b></td> <td>
   <code><a href="filtering">?query={}</a></code>
+  <code>"?fields=["dateCreated"]</code>
 </td></tr>
 <tr><td><b>Pagination:</b></td> <td>
   <code><a href="pagination">?limit=10</a></code>
