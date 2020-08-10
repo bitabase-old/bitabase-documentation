@@ -82,7 +82,7 @@ module.exports = async function generateBlog (h, createPage) {
         )
       ),
       h('div', { class: 'content-info' },
-        h('a', { target: '_blank', class: 'edit-page', href: `https://github.com/bitabase/bitabase-documentation/blob/master/${entry.fullfile}` },
+        h('a', { target: '_blank', class: 'edit-page', href: `https://github.com/bitabase/bitabase-documentation/blob/master/${path.join('./content/blog', entry.fullfile)}` },
           'Edit this page'
         ),
         h('em', 'Last updated: ', format(metadata.lastModified || entry.lastModified, 'yyyy-MM-dd'))
