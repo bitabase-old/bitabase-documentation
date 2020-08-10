@@ -1,0 +1,193 @@
+<html>
+  <head>
+    <title>2020/06/07/removing-users</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:9000/css/header.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/tomorrow.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script charset="UTF-8" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/javascript.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <base href="/" />
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="/img/favicon.png" class="logo-icon">
+          <img src="/img/logo-white.png" class="logo-name">
+        </a>
+      </div>
+      
+    <nav>
+      <a href="http://127.0.0.1:9000/">Home</a>
+      <a href="http://127.0.0.1:9000/tutorial" class="false">Tutorial</a>
+      <a href="http://127.0.0.1:9000/databases">Your Databases</a>
+      <a href="http://127.0.0.1:9000/pricing">Pricing</a>
+      <a href="http://127.0.0.1:9000/community">Community</a>
+      <a href="/" false>Docs</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="http://127.0.0.1:9000/support">Support</a>
+    </nav>
+  
+    </header>
+
+    <main>
+      <div class="with-sidebar"><div class="thin content"><sidebar><ul><li><span>August 2020</span><ul><li><span>3</span><a href="/blog/2020/07/03/sub-queries">Sub queries</a></li><li><span>1</span><a href="/blog/2020/07/01/paging">Paging</a></li></ul></li><li><span>July 2020</span><ul><li><span>7</span><a href="/blog/2020/06/07/removing-users">Removing users</a></li><li><span>6</span><a href="/blog/2020/06/06/benchmarking">Benchmarking</a></li></ul></li><li><span>June 2020</span><ul><li><span>29</span><a href="/blog/2020/05/29/stress-testing-results">Stress testing results</a></li><li><span>25</span><a href="/blog/2020/05/25/running-tests">Running tests</a></li><li><span>21</span><a href="/blog/2020/05/21/service-discovery-included">Service discovery included</a></li></ul></li></ul></sidebar><section><h1>Removing Users<small>Published by <a href="http://twitter.com/markiswylde" target="_blank">Mark Wylde</a> on 2020-07-07</small></h1><div class="content-info"><a target="_blank" class="edit-page" href="https://github.com/bitabase/bitabase-documentation/blob/master/2020-07-07-removing-users.md">Edit this page</a><em>Last updated: 2020-08-06</em></div><div><p>As I mentioned in the last blog post, there is an undocumented feature which allows a special
+collection <code>users</code> to be &quot;logged into&quot; and therefore restrict certain actions on another collection.</p>
+<p>The idea was that if you have headers <code>username</code> and <code>password</code>, the server would try and find a record
+in a <code>users</code> collection, and pass that into the scope of the initial reducer.</p>
+<p>This was really a workaround of the async problem in reducers, before we moved the main language to
+<a href="https://github.com/korynunn/presh">presh</a> where async is made very simple.</p>
+<p>Once the benchmarking and stress testing has been complete and code improvements have put the project
+to a satisfactory requests per second, I&#39;ll be implementing internal operations.</p>
+<h2 id="internal-operations">Internal Operations</h2>
+<p>The specifications may change as I&#39;m implementing it, but my thoughts can be seen in some examples below.</p>
+<p>For all these examples, pretend there is a <code>users</code> table with a <code>username</code>, <code>password</code> and of course <code>id</code> field.</p>
+<h3 id="simple">Simple</h3>
+<p>In the example below the first reducer searches in the <code>users</code> table for a record where the <code>username</code> and <code>password</code>
+match their corresponding values in the request header.</p>
+<pre><code class="language-javascript">const collection = {
+  name: &#39;messages&#39;,
+  reducers: [
+    `{
+      ...body,
+      user: get(&#39;users&#39;, {
+        username: headers[&#39;X-Username&#39;],
+        password: headers[&#39;X-Password&#39;],
+      })
+    }`,
+
+    `{ ...body, userId: user ? user.id : reject(&#39;401&#39;, &#39;You are not logged in&#39;) }`
+  ]
+}</code></pre>
+<p>Therefore to post a new <code>message</code> you could do:</p>
+<pre><code class="language-javascript">fetch(&#39;https://test.bitabase.com/messages&#39;, {
+  method: &#39;post&#39;,
+  headers: {
+    &#39;X-Username&#39;: &#39;mark&#39;,
+    &#39;X-Password&#39;: &#39;supersecret&#39;
+  }
+})</code></pre>
+<p>So long as a record if users exists in the <code>users</code> collection for <code>mark</code> and the plain text password
+is <code>supersecret</code> then the record will be posted and the userId field will be set correctly.</p>
+<p>If the user can not be found, it will reject to the client with a <code>401</code>.</p>
+<h3 id="hashing">Hashing</h3>
+<p>In the above example we stored the users password in plaintext. This is obviously terrible, so lets
+hash the password. If we look at the <a href="https://docs.bitabase.com/docs/api/scripting">scripting</a>
+documentation, we can see two methods <code>hashText</code> and <code>verifyHash</code>.</p>
+<p>So let&#39;s ensure when we create a user their password is hashed.</p>
+<pre><code class="language-javascript">const collection = {
+  name: &#39;users&#39;,
+  reducers: [
+    `{ ...body, password: hashText(body.password) }`
+  ]
+}</code></pre>
+<p>The above schema ensures anytime a user is <code>post</code>, <code>put</code>, <code>patched</code>, there password will be hashed and
+the plain text never stored.</p>
+<p>But now we need to authenticate the user. Let&#39;s take the same code from the &quot;Basic&quot; example above,
+verifying the password&#39;s hash.</p>
+<pre><code class="language-javascript">const collection = {
+  name: &#39;messages&#39;,
+  reducers: [
+    `{
+      ...body,
+      user: get(&#39;users&#39;, {
+        username: headers[&#39;X-Username&#39;]
+      })
+    }`,
+
+    `{
+      ...body,
+      user: verifyHash(headers[&#39;X-Password&#39;], user.password) ? user : null
+    }`,
+
+    `{ ...body, userId: user ? user.id : reject(&#39;401&#39;, &#39;You are not logged in&#39;) }`
+  ]
+}</code></pre>
+<p>Now when we post to <code>messages</code>, the above reducers will:
+Reducer 1: Get a users record from the <code>users</code> table, matching only on <code>X-Username</code>.
+Reducer 2: Compare the hashed password with the plaintext one, setting the user to null if it does not match.
+Reducer 3: Reject if the user does not exist</p>
+<h3 id="sessions">Sessions</h3>
+<p>It&#39;s probably not great practice to continuously send the username and password with every requests, so why
+don&#39;t we introduce the concept of sessions into our database.</p>
+<pre><code class="language-javascript">const usersCollection = {
+  name: &#39;users&#39;,
+  reducers: [
+    // Hash the users password when they create or update their account
+    `{ ...body, password: hashText(body.password) }`
+  ]
+}
+
+const sessionsCollection = {
+  name: &#39;sessions&#39;,
+  reducers: [
+    // Allow anyone to create a session, but only internal requests can get and list
+    `request.isInternal || method === &#39;post&#39; ? { ...body, ...headers } : reject(&#39;403&#39;, &#39;Forbidden&#39;)`,
+
+    // Find the user in the post body when creating a new session
+    `{ user: get(&#39;users&#39;, { username: body.username }) }`,
+
+    // Ensure their password matched the stored hashed one
+    `{ user: verifyHash(headers[&#39;X-Password&#39;], user.password) ? user : null }`,
+
+    // Generate a secret random string for the token or reject if not logged in
+    `user ? { token: generateSecureRandomString(16), userId: user.id } : reject(&#39;401&#39;, &#39;You are not logged in&#39;) }`
+  ]
+}</code></pre>
+<pre><code class="language-javascript">const collection = {
+  name: &#39;messages&#39;,
+  reducers: [
+    // Find a session matching the request header
+    `{
+      ...body,
+      session: get(&#39;sessions&#39;, {
+        token: headers[&#39;X-Session-Token&#39;]
+      }),
+    }`,
+
+    // Find the user for the previously fetched session
+    `{
+      ...body,
+      user: get(&#39;users&#39;, {
+        id: session.userId
+      }),
+    }`,
+
+    // Add the userId to the record, or reject if they are not signed in
+    `{ ...body, userId: user ? user.id : reject(&#39;401&#39;, &#39;You are not logged in&#39;) }`
+  ]
+}</code></pre>
+<h3 id="other-operations">Other operations</h3>
+<p>Methods for all operations would be included:</p>
+<pre><code>get(collectionName, query)
+post(collectionName, recordData)
+put(collectionName, query, recordData)
+patch(collectionName, query, partialRecordData)
+delete(collectionName, query)</code></pre>
+<p>Also the method <code>generateSecureRandomString</code> does not exist in scripting just yet, so I&#39;ll need to
+get that implemented.</p>
+<p>For now you will only be able to query collections within the same database, as an <code>isInternal</code> property
+will be given, allowing you to have specific <code>reducer</code> logic for internal requests.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>There may be things missing from above, and that will become apparent when during implementation. But
+I&#39;m confident this approach will allow complete flexibility to implement custom authentication logic.</p>
+<p>I will now be removing the current hardcoded &quot;magical&quot; <code>users</code> collection from the bitabase server and
+that will hopefully improve the benchmarking speeds from the previous blog post.</p>
+<p>Since I&#39;m not sure how much longer the optimisation piece will take, the features above will probably
+not be worked on for a while.</p>
+</div><hr></section></div></div>
+    </main>
+  </body>
+</html>

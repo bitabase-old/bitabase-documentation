@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>Developer Docs - Bitabase</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:9000/css/header.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/tomorrow.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script charset="UTF-8" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/javascript.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <base href="/" />
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="/img/favicon.png" class="logo-icon">
+          <img src="/img/logo-white.png" class="logo-name">
+        </a>
+      </div>
+      
+    <nav>
+      <a href="http://127.0.0.1:9000/">Home</a>
+      <a href="http://127.0.0.1:9000/tutorial" class="false">Tutorial</a>
+      <a href="http://127.0.0.1:9000/databases">Your Databases</a>
+      <a href="http://127.0.0.1:9000/pricing">Pricing</a>
+      <a href="http://127.0.0.1:9000/community">Community</a>
+      <a href="/" class="active">Docs</a>
+      <a href="/blog" false>Blog</a>
+      <a href="http://127.0.0.1:9000/support">Support</a>
+    </nav>
+  
+    </header>
+
+    <main>
+      <div class="with-sidebar">
+        <div class="content thin">
+          <sidebar>
+      <ul>
+        <li>
+          <span>Developers</span>
+          <ul>
+            <li><a href="/">Introduction</a></li>
+            <li><a href="/guides/getting-started">Getting Started</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Global Logic</span>
+          <ul>
+            <li><a href="/api/global-logic/authentication">Authentication</a></li>
+            <li><a href="/api/global-logic/pagination">Pagination</a></li>
+            <li><a href="/api/global-logic/filtering">Filtering</a></li>
+            <li><a href="/api/global-logic/scripting">Scripting</a></li>
+            <li><a href="/api/global-logic/sorting">Sorting</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Entities</span>
+          <ul>
+            <li><a href="/api/entities/databases">Databases</a></li>
+            <li><a href="/api/entities/collections">Collections</a></li>
+            <li><a href="/api/entities/records">Records</a></li>
+          </ul>
+        </li>
+      </ul>
+    </sidebar>
+          
+          <section>
+          <div><h2 id="general-information">General information</h2>
+<p>Interfacing with the Bitabase server is done via a REST API over https.</p>
+<p>Before you can play with the API&apos;s you will need an account, so
+if you don&apos;t have one already, <a href="https://www.bitabase.com">sign up for free</a>.</p>
+<h2 id="help-bitabase">Help Bitabase</h2>
+<p>If you come across any bugs please help us by filing a Pull Request in github
+on our <a href="https://www.github.com/bitabase/bitabase-documentation">documentation repo</a>.</p>
+</div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<html>
+  <head>
+    <title>First Blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:9000/css/header.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/tomorrow.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script charset="UTF-8" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/javascript.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <base href="/" />
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="/img/favicon.png" class="logo-icon">
+          <img src="/img/logo-white.png" class="logo-name">
+        </a>
+      </div>
+      
+    <nav>
+      <a href="http://127.0.0.1:9000/">Home</a>
+      <a href="http://127.0.0.1:9000/tutorial" class="false">Tutorial</a>
+      <a href="http://127.0.0.1:9000/databases">Your Databases</a>
+      <a href="http://127.0.0.1:9000/pricing">Pricing</a>
+      <a href="http://127.0.0.1:9000/community">Community</a>
+      <a href="/" class="active">Docs</a>
+      <a href="/blog" false>Blog</a>
+      <a href="http://127.0.0.1:9000/support">Support</a>
+    </nav>
+  
+    </header>
+
+    <main>
+      <div class="with-sidebar"><div class="content thin"><sidebar>
+      <ul>
+        <li>
+          <span>Developers</span>
+          <ul>
+            <li><a href="/">Introduction</a></li>
+            <li><a href="/guides/getting-started">Getting Started</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Global Logic</span>
+          <ul>
+            <li><a href="/api/global-logic/authentication">Authentication</a></li>
+            <li><a href="/api/global-logic/pagination">Pagination</a></li>
+            <li><a href="/api/global-logic/filtering">Filtering</a></li>
+            <li><a href="/api/global-logic/scripting">Scripting</a></li>
+            <li><a href="/api/global-logic/sorting">Sorting</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Entities</span>
+          <ul>
+            <li><a href="/api/entities/databases">Databases</a></li>
+            <li><a href="/api/entities/collections">Collections</a></li>
+            <li><a href="/api/entities/records">Records</a></li>
+          </ul>
+        </li>
+      </ul>
+    </sidebar><section><h1>Filtering<small></small></h1><div class="content-info"><a target="_blank" class="edit-page" href="https://github.com/bitabase/bitabase-documentation/blob/master/content/api/global-logic/filtering.md">Edit this page</a><em>Last updated: 2020-08-10</em></div><div><p>When returning records from a collection you may want to query those records and only
+return relevant records to the task you are trying to do.</p>
+<p>For this, every collection can be queried using the <code>?query={}</code> query string parameter.</p>
+<h2 id="syntax">Syntax</h2>
+<p>Bitabase uses a similar concept to MongoDB to filter records, in the form of a JSON object.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$eq</code></td>
+<td>Matches values that are equal to a specified value.</td>
+</tr>
+<tr>
+<td><code>$gt</code></td>
+<td>Matches values that are greater than a specified value.</td>
+</tr>
+<tr>
+<td><code>$gte</code></td>
+<td>Matches values that are greater than or equal to a specified value.</td>
+</tr>
+<tr>
+<td><code>$in</code></td>
+<td>Matches any of the values specified in an array.</td>
+</tr>
+<tr>
+<td><code>$lt</code></td>
+<td>Matches values that are less than a specified value.</td>
+</tr>
+<tr>
+<td><code>$lte</code></td>
+<td>Matches values that are less than or equal to a specified value.</td>
+</tr>
+<tr>
+<td><code>$ne</code></td>
+<td>Matches all values that are not equal to a specified value.</td>
+</tr>
+<tr>
+<td><code>$nin</code></td>
+<td>Matches none of the values specified in an array.</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$and</td>
+<td>Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.</td>
+</tr>
+<tr>
+<td>$not</td>
+<td>Inverts the effect of a query expression and returns documents that do not match the query expression.</td>
+</tr>
+<tr>
+<td>$nor</td>
+<td>Joins query clauses with a logical NOR returns all documents that fail to match both clauses.</td>
+</tr>
+<tr>
+<td>$or</td>
+<td>Joins query clauses with a logical OR returns all documents that match the conditions of either clause.</td>
+</tr>
+</tbody></table>
+<h2 id="examples">Examples</h2>
+<p>If you have, for example, a collection where some or all records have a <code>firstName</code> and a
+<code>lastName</code> property.</p>
+<p>If you want to return only records where the <code>firstName</code> is equal to <code>Bob</code> then you would
+use the following url as <code>$eq</code> is the default operator:</p>
+<pre><code class="language-text">https://YOUR-DATABASE.bitabase.net/:collectionName?query={&quot;firstName&quot;:&quot;Bob&quot;}</code></pre>
+<p>You could be more explicit and specifiy the operator:</p>
+<pre><code class="language-text">https://YOUR-DATABASE.bitabase.net/:collectionName?query={&quot;firstName&quot;:{&quot;$eq&quot;:&quot;Bob&quot;}}</code></pre>
+<p>Or what if we want to return all records except for &quot;Bob&quot;:</p>
+<pre><code class="language-text">https://YOUR-DATABASE.bitabase.net/:collectionName?query={&quot;firstName&quot;:{&quot;$ne&quot;:&quot;Bob&quot;}}</code></pre>
+</div><hr></section></div></div>
+    </main>
+  </body>
+</html>

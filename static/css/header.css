@@ -1,0 +1,110 @@
+/*
+  HEADER
+*/
+.user {
+  text-align: right;
+  color: white;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 7px;
+}
+
+.user-buttons a:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.20);
+}
+.user-buttons a.active {
+  background-color: rgba(0, 0, 0, 0.30);
+}
+
+.user-buttons a.primary.active {
+  background-color: #316922;
+}
+.user-buttons a.primary:hover:not(.active) {
+  background-color: #478536;
+}
+.user-buttons a.primary {
+  background-color: #5d994b;
+}
+
+nav, section {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+nav {
+  display: none;
+  padding: 5px;
+}
+
+header .logo a {
+  text-decoration: none;
+}
+
+h1 {
+  margin-top: 0;
+}
+h2 {
+  font-weight: 100;
+}
+
+header {
+  height: 50px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  align-items: center;
+  background: rgb(110,13,71);
+  background: linear-gradient(90deg, rgba(110,13,71,1) 0%, rgba(49,9,121,1) 100%);
+  display: flex;
+  padding-left: 10px;
+}
+
+header img.logo-icon {
+  width: 30px;
+  display:inline-block;
+  text-align: center;
+  vertical-align:middle;
+}
+
+header img.logo-name {
+  margin-right: 20px;
+  width: 117px;
+  height: 20px;
+  display:inline-block;
+  text-align: center;
+  vertical-align:middle;
+}
+
+nav {
+  flex-grow: 1;
+}
+
+nav a.active {
+  background-color: rgba(0, 0, 0, 0.30);
+}
+nav a:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.20);
+}
+nav a,
+.user-buttons a {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 6px 10px 6px 10px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+@media (min-width: 600px) {
+  nav {
+    display: inherit;
+  }
+
+  .user {
+    display: inherit;
+  }
+
+  .user-buttons {
+    display: inherit;
+  }
+}

@@ -1,0 +1,183 @@
+<html>
+  <head>
+    <title>First Blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:9000/css/header.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/tomorrow.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script charset="UTF-8" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/javascript.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <base href="/" />
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="/img/favicon.png" class="logo-icon">
+          <img src="/img/logo-white.png" class="logo-name">
+        </a>
+      </div>
+      
+    <nav>
+      <a href="http://127.0.0.1:9000/">Home</a>
+      <a href="http://127.0.0.1:9000/tutorial" class="false">Tutorial</a>
+      <a href="http://127.0.0.1:9000/databases">Your Databases</a>
+      <a href="http://127.0.0.1:9000/pricing">Pricing</a>
+      <a href="http://127.0.0.1:9000/community">Community</a>
+      <a href="/" class="active">Docs</a>
+      <a href="/blog" false>Blog</a>
+      <a href="http://127.0.0.1:9000/support">Support</a>
+    </nav>
+  
+    </header>
+
+    <main>
+      <div class="with-sidebar"><div class="content thin"><sidebar>
+      <ul>
+        <li>
+          <span>Developers</span>
+          <ul>
+            <li><a href="/">Introduction</a></li>
+            <li><a href="/guides/getting-started">Getting Started</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Global Logic</span>
+          <ul>
+            <li><a href="/api/global-logic/authentication">Authentication</a></li>
+            <li><a href="/api/global-logic/pagination">Pagination</a></li>
+            <li><a href="/api/global-logic/filtering">Filtering</a></li>
+            <li><a href="/api/global-logic/scripting">Scripting</a></li>
+            <li><a href="/api/global-logic/sorting">Sorting</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Entities</span>
+          <ul>
+            <li><a href="/api/entities/databases">Databases</a></li>
+            <li><a href="/api/entities/collections">Collections</a></li>
+            <li><a href="/api/entities/records">Records</a></li>
+          </ul>
+        </li>
+      </ul>
+    </sidebar><section><h1>Databases<small></small></h1><div class="content-info"><a target="_blank" class="edit-page" href="https://github.com/bitabase/bitabase-documentation/blob/master/content/api/entities/databases.md">Edit this page</a><em>Last updated: 2020-08-10</em></div><div><h2 id="what-are-databases">What are databases</h2>
+<p>A database is a folder of collections. A database has one or more owners (from the manager).</p>
+<blockquote>
+<p>Note: Multiple owners has not been implemented in the latest version</p>
+</blockquote>
+<h2 id="resource-definition">Resource Definition</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Validation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>string</td>
+<td>Alphanumeric</td>
+<td>The name to reference your database</td>
+</tr>
+<tr>
+<td>total_reads</td>
+<td>integer</td>
+<td></td>
+<td>Sum of all collection read&#39;s spent</td>
+</tr>
+<tr>
+<td>total_writes</td>
+<td>integer</td>
+<td></td>
+<td>Sum of all collection write&#39;s spent</td>
+</tr>
+<tr>
+<td>total_space</td>
+<td>integer</td>
+<td></td>
+<td>Sum of all collection&#39;s space used</td>
+</tr>
+<tr>
+<td>total_collections</td>
+<td>integer</td>
+<td></td>
+<td>Count of all collections</td>
+</tr>
+<tr>
+<td>date_created</td>
+<td>integer</td>
+<td></td>
+<td>A timestamp of the date created</td>
+</tr>
+</tbody></table>
+<h2 id="available-methods">Available Methods</h2>
+<h3 id="create-a-new-database">Create a new database</h3>
+<p>Create a new database and associate it with the sessions user.</p>
+<table>
+<tr><td><b>URL:</b></td> <td>/v1/databases</td></tr>
+<tr><td><b>Method:</b></td> <td>POST</td></tr>
+<tr><td><b>Inputs:</b></td> <td>name</td></tr>
+<tr><td><b>Outputs:</b></td> <td><code>id</code>, <code>name</code></td></tr>
+</table>
+
+<pre><code class="language-javascript">fetch(&#39;https://api.bitabase.net/v1/databases&#39;, {
+  method: &#39;post&#39;,
+  body: {
+    name: &#39;mytestdb&#39;
+  },
+  headers: {
+    &#39;X-Session-Id&#39;: &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;,
+    &#39;X-Session-Secret&#39;: &#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;
+  }
+})</code></pre>
+<p>Example Response:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+  &quot;name&quot;: &quot;test&quot;,
+}</code></pre>
+<h3 id="list-databases">List databases</h3>
+<p>List all databases associated with the sessions user.</p>
+<table>
+<tr><td><b>URL:</b></td> <td>/v1/databases</td></tr>
+<tr><td><b>Method:</b></td> <td>GET</td></tr>
+<tr><td><b>Filtering:</b></td> <td>Unavailable</td></tr>
+<tr><td><b>Pagination:</b></td> <td>Unavailable</td></tr>
+<tr><td><b>Outputs:</b></td> <td><code>*</code></td></tr>
+</table>
+
+<pre><code class="language-javascript">fetch(&#39;https://api.bitabase.net/v1/databases&#39;, {
+  method: &#39;get&#39;,
+  headers: {
+    &#39;X-Session-Id&#39;: &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39;,
+    &#39;X-Session-Secret&#39;: &#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;
+  }
+})</code></pre>
+<p>Example Response:</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;,
+    &quot;name&quot;: &quot;test&quot;,
+    &quot;total_reads&quot;: 0,
+    &quot;total_writes&quot;: 0,
+    &quot;total_space&quot;: 0,
+    &quot;total_collections&quot;: 0,
+    &quot;date_created&quot;: 1574159497684
+  }
+]</code></pre>
+</div><hr></section></div></div>
+    </main>
+  </body>
+</html>

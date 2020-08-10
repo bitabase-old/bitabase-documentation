@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <title>2020/07/03/sub-queries</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="http://127.0.0.1:9000/css/header.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/tomorrow.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script charset="UTF-8" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/javascript.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <base href="/" />
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="/img/favicon.png" class="logo-icon">
+          <img src="/img/logo-white.png" class="logo-name">
+        </a>
+      </div>
+      
+    <nav>
+      <a href="http://127.0.0.1:9000/">Home</a>
+      <a href="http://127.0.0.1:9000/tutorial" class="false">Tutorial</a>
+      <a href="http://127.0.0.1:9000/databases">Your Databases</a>
+      <a href="http://127.0.0.1:9000/pricing">Pricing</a>
+      <a href="http://127.0.0.1:9000/community">Community</a>
+      <a href="/" false>Docs</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="http://127.0.0.1:9000/support">Support</a>
+    </nav>
+  
+    </header>
+
+    <main>
+      <div class="with-sidebar"><div class="thin content"><sidebar><ul><li><span>August 2020</span><ul><li><span>3</span><a href="/blog/2020/07/03/sub-queries">Sub queries</a></li><li><span>1</span><a href="/blog/2020/07/01/paging">Paging</a></li></ul></li><li><span>July 2020</span><ul><li><span>7</span><a href="/blog/2020/06/07/removing-users">Removing users</a></li><li><span>6</span><a href="/blog/2020/06/06/benchmarking">Benchmarking</a></li></ul></li><li><span>June 2020</span><ul><li><span>29</span><a href="/blog/2020/05/29/stress-testing-results">Stress testing results</a></li><li><span>25</span><a href="/blog/2020/05/25/running-tests">Running tests</a></li><li><span>21</span><a href="/blog/2020/05/21/service-discovery-included">Service discovery included</a></li></ul></li></ul></sidebar><section><h1>Introducing sub queries<small>Published by <a href="http://twitter.com/markiswylde" target="_blank">Mark Wylde</a> on 2020-08-03</small></h1><div class="content-info"><a target="_blank" class="edit-page" href="https://github.com/bitabase/bitabase-documentation/blob/master/2020-08-03-sub-queries.md">Edit this page</a><em>Last updated: 2020-08-10</em></div><div><p>Some updates for the work done this month.</p>
+<h2 id="performance">Performance</h2>
+<p>I managed to spin up some VM&#39;s on a cloud host provider and ran bitabase-stressed getting around 600 writes per second, which was a shame but not unexpected.</p>
+<p>What was surprising is rqlite was no longer taking the majority of CPU. The node process was capping out at around 70%, which still left me with some unanswered questions.</p>
+<p>So I decided to create a <a href="https://github.com/bitabase/barely-benchmarked">benchmarking app</a> which consists of two simple servers. One that talks to bitabase-server (not the clustered bitabase, only the server), and another that talks to postgres.</p>
+<p>They both ended up maxing out at 600 requests per second, which makes me think there something about NodeJS&#39;s networking that I don&#39;t understand. My next step is to play around with a server that doesn&#39;t connect to either postgres or bitabase and see how many requests I can get.</p>
+<h2 id="users">Users</h2>
+<p>In a previous release of bitabase-server, I removed the users&#39; functionality, but there was still some remaining. Namely, every request was trying to parse users if credentials have been provided.</p>
+<p>With the latest server release, this has been completely removed, along with the remaining tests. Authentication is no longer available in bitabase. Unless you implement it yourself. More on that next...</p>
+<h2 id="sub-queries">Sub queries</h2>
+<p>I have added a first attempt at sub queries into the bitabase server, and a small change to the gateway to allow querying databases when the host domain does not match up.</p>
+<p>Having a look at the test in bitabase-server we can see the following collection config:</p>
+<pre><code class="language-javascript">// Create a new collection called &#39;groups&#39;
+yield righto(callarestJson, {
+  url: &#39;http://localhost:8000/v1/databases/test/collections&#39;,
+  method: &#39;post&#39;,
+  body: {
+    name: &#39;groups&#39;
+  }
+});
+
+// Create a new record in &#39;groups&#39; with key &#39;admin&#39;
+yield righto(callarestJson, {
+  url: &#39;http://localhost:8000/v1/databases/test/records/categories&#39;,
+  method: &#39;post&#39;,
+  body: {
+    key: &#39;admin&#39;, value: &#39;Administrator&#39;
+  }
+});
+
+// Create a new record in &#39;groups&#39; with key &#39;b&#39;
+yield righto(callarestJson, {
+  url: &#39;http://localhost:8000/v1/databases/test/records/categories&#39;,
+  method: &#39;post&#39;,
+  body: {
+    key: &#39;user&#39;, value: &#39;Standard User&#39;
+  }
+});
+
+// Create a new test collection that will add a `lookupValue` key
+yield righto(callarestJson, {
+  url: &#39;http://localhost:8000/v1/databases/test/collections&#39;,
+  method: &#39;post&#39;,
+  body: {
+    name: &#39;users&#39;,
+    transducers: [`
+      {
+        ...body,
+        lookupValue: bitabase.getOne(&#39;categories&#39;, {
+          query: {
+            key: &#39;user&#39;
+          }
+        }).value}
+    `]
+  }
+});
+
+// Create a new record in the test collection
+const testInsert = yield righto(callarestJson, {
+  url: &#39;http://localhost:8000/v1/databases/test/records/users&#39;,
+  method: &#39;post&#39;,
+  body: {
+    name: &#39;Joe Bloggs&#39;
+  }
+});</code></pre>
+<p>This shows us the addition of a new command in the reducer evaluation scope called <code>bitabase.getOne</code>.</p>
+<p>This works by going back to the gateway and performing a query. You can only query collections inside the same database and the presenters and transducers will run as if it was hit by an external request.</p>
+<p>If you want to bypass some transducers, you will need to implement logic in your code. Maybe adding an authorized header that you could check may come in helpful, but I won&#39;t implement it until we have a use case.</p>
+<h2 id="branding">Branding</h2>
+<p>The logo and icons where inconsistent across the github profile, documentation and repos. I&#39;ve updated them all to make them more consistent. I used Affinity Designer for this, and stored the afdesign file in the bitabase-documentation repo.</p>
+</div><hr></section></div></div>
+    </main>
+  </body>
+</html>
