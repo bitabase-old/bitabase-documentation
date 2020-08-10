@@ -57,7 +57,7 @@ module.exports = async function generateBlog (h, createPage, pathname) {
       h('hr')
     );
 
-    createPage(page.file, 'First Blog',
+    createPage(page.file, metadata.title,
       h('div', { class: 'with-sidebar' },
         h('div', { class: 'content thin' },
           sidebar(h),

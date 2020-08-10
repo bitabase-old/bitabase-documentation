@@ -96,7 +96,7 @@ module.exports = async function generateBlog (h, createPage) {
       latestEntries.push(entryTree);
     }
 
-    createPage('/blog/' + entry.name, entry.name,
+    createPage('/blog/' + entry.name, metadata.title,
       h('div', { class: 'with-sidebar' },
         h('div', { class: 'thin content' },
           h('sidebar',
