@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -i dist -e md,js,css,html index.js & ws -d dist",
+    "start": "nodemon -i dist -e md,js,css,html index.js & ws -p 9001 -d dist",
     "build": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
