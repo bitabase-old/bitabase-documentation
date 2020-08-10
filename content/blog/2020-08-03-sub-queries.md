@@ -37,7 +37,7 @@ yield righto(callarestJson, {
 
 // Create a new record in 'groups' with key 'admin'
 yield righto(callarestJson, {
-  url: 'http://localhost:8000/v1/databases/test/records/categories',
+  url: 'http://localhost:8000/v1/databases/test/records/groups',
   method: 'post',
   body: {
     key: 'admin', value: 'Administrator'
@@ -46,7 +46,7 @@ yield righto(callarestJson, {
 
 // Create a new record in 'groups' with key 'b'
 yield righto(callarestJson, {
-  url: 'http://localhost:8000/v1/databases/test/records/categories',
+  url: 'http://localhost:8000/v1/databases/test/records/groups',
   method: 'post',
   body: {
     key: 'user', value: 'Standard User'
@@ -62,7 +62,7 @@ yield righto(callarestJson, {
     transducers: [`
       {
         ...body,
-        lookupValue: bitabase.getOne('categories', {
+        lookupValue: bitabase.getOne('groups', {
           query: {
             key: 'user'
           }
