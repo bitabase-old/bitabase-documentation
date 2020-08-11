@@ -63,7 +63,7 @@ h1 > small {
   margin: calc(10px / 2);
   flex-basis: 270px;
   flex-grow: 1;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .with-sidebar > * > :first-child {
