@@ -73,20 +73,22 @@ module.exports = async function generateBlog (h, createPage) {
     const content = marked(contentBody);
 
     const entryTree = h('',
-      h('h1',
-        metadata.title,
-        h('small', 'Published by ',
-          h('a', { href: metadata.authorURL, target: '_blank' }, metadata.author),
-          ' on ',
-          format(entry.date, 'yyyy-MM-dd')
-        )
-      ),
-      h('div', { class: 'content-info' },
-        h('a', { target: '_blank', class: 'edit-page', href: `https://github.com/bitabase/bitabase-documentation/blob/master/${path.join('./content/blog', entry.fullfile)}` },
-          'Edit this page'
+      h('div', {class: 'content-heading'},
+        h('h1',
+          metadata.title,
+          h('small', 'Published by ',
+            h('a', { href: metadata.authorURL, target: '_blank' }, metadata.author),
+            ' on ',
+            format(entry.date, 'yyyy-MM-dd')
+          )
         ),
-        format(entry.date, 'yyyy-MM-dd') !== format(metadata.lastModified || entry.lastModified, 'yyyy-MM-dd')
-          && h('em', 'Last updated: ', format(metadata.lastModified || entry.lastModified, 'yyyy-MM-dd'))
+        h('div', { class: 'content-info' },
+          h('a', { target: '_blank', class: 'edit-page', href: `https://github.com/bitabase/bitabase-documentation/blob/master/${path.join('./content/blog', entry.fullfile)}` },
+            'Edit this page'
+          ),
+          format(entry.date, 'yyyy-MM-dd') !== format(metadata.lastModified || entry.lastModified, 'yyyy-MM-dd')
+            && h('em', 'Last updated: ', format(metadata.lastModified || entry.lastModified, 'yyyy-MM-dd'))
+        ),
       ),
       h('div', { dangerouslySetInnerHTML: { __html: content } }, 'placeholder'),
       h('hr')
