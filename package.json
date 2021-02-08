@@ -17,7 +17,7 @@
     "hyperhtml": "^2.33.0",
     "hyperx": "^2.5.4",
     "local-web-server": "^4.2.1",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "nodemon": "^2.0.4",
     "vhtml": "^2.2.0",
     "virtual-dom": "^2.1.1"
