@@ -18,7 +18,7 @@
     "hyperx": "^2.5.4",
     "local-web-server": "^4.2.1",
     "marked": "^4.0.10",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.20",
     "vhtml": "^2.2.0",
     "virtual-dom": "^2.1.1"
   }
